@@ -1,0 +1,40 @@
+img_size = 300
+number_classes = 2
+epochs = 30
+batch_size = 16
+
+#initialize the training data augmentation object
+train_data_gen = ImageDataGenerator(
+    rescale            = 1.0/255.0,
+    rotation_range     = 5        , 
+    width_shift_range  = 0.2      ,
+    height_shift_range = 0.2      ,
+    shear_range        = 0.2      ,
+    zoom_range         = 0.2      ,
+    horizontal_flip    = True     ,
+    vertical_flip      = False    )
+#initialize the validation data augmentation object
+val_data_gen = ImageDataGenerator(rescale=1./255)
+#initialize the testing data augmentation object
+test_data_gen = ImageDataGenerator(rescale=1./255)
+
+#initialize the training generator
+train_data = train_data_gen.flow_from_directory(
+    train_folder, 
+    batch_size = batch_size,
+    target_size = (img_size,img_size),
+    class_mode = 'binary')
+#initialize the validation generator
+val_data = val_data_gen.flow_from_directory(
+    val_folder,
+    shuffle = False, 
+    batch_size = batch_size,
+    target_size = (img_size,img_size),
+    class_mode = 'binary')
+#initialize the testing generator
+test_data = test_data_gen.flow_from_directory(
+    test_folder,
+    shuffle = False,
+    batch_size = batch_size,
+    target_size = (img_size,img_size),
+    class_mode = 'binary')
